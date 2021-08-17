@@ -15,5 +15,8 @@
     "express": "^4.17.1",
     "nodemon": "^2.0.12",
     "simple-json-db": "^1.2.3"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.12"
   }
 }

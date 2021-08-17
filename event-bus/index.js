@@ -6,6 +6,7 @@ const app = express();
 app.use(bodyParser.json());
 
 app.post('/events', (req, res) => {
+    console.log('Event: ', req.body);
     const event = req.body;
 
     axios.post('http://localhost:4000/events', event); // Posts
