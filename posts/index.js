@@ -33,7 +33,7 @@ app.post('/posts', async (req, res) => {
     const {title} = req.body;
     db.set(id, {id, title});
 
-    await axios.post('https://localhost:4005/events', {
+    await axios.post('http://localhost:4005/events', {
         type: 'PostCreated',
         data: {
             id: id,
