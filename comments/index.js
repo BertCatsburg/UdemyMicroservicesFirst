@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { randomBytes } = require('crypto');
+const {randomBytes} = require('crypto');
 const JSONdb = require('simple-json-db');
 const cors = require('cors');
 
@@ -22,11 +22,10 @@ app.get('/comments', (req, res) => {
 
 app.post('/posts/:id/comments', (req, res) => {
     const commentId = randomBytes(4).toString('hex');
-    const { content } = req.body;
+    const {content} = req.body;
 
-    const comments = db.get[req.params.id] || [];
-
-    comments.push({ id: commentId, content });
+    const comments = db.get(req.params.id) || [];
+    comments.push({id: commentId, content});
 
     db.set([req.params.id], comments);
 
