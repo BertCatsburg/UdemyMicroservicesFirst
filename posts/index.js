@@ -19,6 +19,11 @@ app.get('/posts', async (req, res) => {
 app.post('/posts', async (req, res) => {
     console.log(`Request with title =[${req.body.title}]`);
 
+    if (req.body.title.length === 0) {
+        res.status(200).send({});
+        return;
+    }
+
     const id = randomBytes(4).toString('hex');
     const {title} = req.body;
     db.set(id, {id, title});
