@@ -7,15 +7,17 @@ const cors = require('cors');
 
 const app = express();
 app.use(bodyParser.json());
-app.use(cors);
+app.use(cors());
 
 const db = new JSONdb('./posts.json');
+
 
 app.get('/posts', async (req, res) => {
     res.send(db.JSON());
 });
 
 app.post('/posts', async (req, res) => {
+    console.log(`Request with title =[${req.body.title}]`);
 
     const id = randomBytes(4).toString('hex');
     const {title} = req.body;
