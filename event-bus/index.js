@@ -21,7 +21,11 @@ app.post('/events', async (req, res) => {
              console.log('ERROR on Sending Event to COMMENTS');
              console.log(error.message);
          }); // Comments
-    // await axios.post('http://localhost:4002/events', event); // Query Service
+    axios.post('http://localhost:4002/events', event)
+        .catch((error) => {
+            console.log('ERROR on Sending Event to QUERY Service');
+            console.log(error.message);
+        }); // Query
 
     res.send({status: 'OK'});
 });

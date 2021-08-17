@@ -9,7 +9,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-const db = new JSONdb('./comments.json');
+const db = new JSONdb('../data/comments.json');
 
 const commentsByPostId = {};
 
