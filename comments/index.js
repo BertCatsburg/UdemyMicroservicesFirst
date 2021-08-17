@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const {randomBytes} = require('crypto');
 const JSONdb = require('simple-json-db');
 const cors = require('cors');
+const axios = require('axios');
 
 const app = express();
 app.use(bodyParser.json());
@@ -27,10 +28,28 @@ app.post('/posts/:id/comments', (req, res) => {
     const comments = db.get(req.params.id) || [];
     comments.push({id: commentId, content});
 
+    axios.post('http://localhost:4005/events', {
+            type: 'CommentCreated',
+            data: {
+                id: commentId,
+                postId: req.params.id,
+                content: content
+            }
+        })
+        .catch((error) => {
+            console.log('ERROR on sending Event');
+        })
+
     db.set([req.params.id], comments);
 
     res.status(201).send(comments);
 });
+
+app.post('/events', (req, res) => {
+    console.log('Event Received: ' + req.body.type);
+
+    res.status(200).send('OK');
+})
 
 app.listen(4001, () => {
     console.log('Listening on 4001');

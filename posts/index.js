@@ -33,17 +33,25 @@ app.post('/posts', async (req, res) => {
     const {title} = req.body;
     db.set(id, {id, title});
 
-    await axios.post('http://localhost:4005/events', {
-        type: 'PostCreated',
-        data: {
-            id: id,
-            title: title
-        }
-    })
+    axios.post('http://localhost:4005/events', {
+            type: 'PostCreated',
+            data: {
+                id: id,
+                title: title
+            }
+        })
+        .catch((error) => {
+            console.log('ERROR on sending Event');
+        })
 
     res.status(201).send({id, title});
 });
 
+app.post('/events', (req, res) => {
+    console.log('Event Received: ' + req.body.type);
+
+    res.status(200).send('OK');
+})
 /**
  * App-Listen
  */
