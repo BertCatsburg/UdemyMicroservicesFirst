@@ -26,6 +26,11 @@ app.post('/events', async (req, res) => {
             console.log('ERROR on Sending Event to QUERY Service');
             console.log(error.message);
         }); // Query
+    axios.post('http://localhost:4003/events', event)
+        .catch((error) => {
+            console.log('ERROR on Sending Event to MODERATION Service');
+            console.log(error.message);
+        }); // Moderation
 
     res.send({status: 'OK'});
 });

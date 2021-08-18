@@ -27,14 +27,14 @@ app.post('/posts/:id/comments', (req, res) => {
     comments.push({id: commentId, content, status: 'pending'});
 
     axios.post('http://localhost:4005/events', {
-            type: 'CommentCreated',
-            data: {
-                id: commentId,
-                postId: req.params.id,
-                content: content,
-                status: 'pending'
-            }
-        })
+        type: 'CommentCreated',
+        data: {
+            id: commentId,
+            postId: req.params.id,
+            content: content,
+            status: 'pending'
+        }
+    })
         .catch((error) => {
             console.log('ERROR on sending Event');
         })
@@ -46,6 +46,14 @@ app.post('/posts/:id/comments', (req, res) => {
 
 app.post('/events', (req, res) => {
     console.log('Event Received: ' + req.body.type);
+
+    const {type, data} = req.body;
+
+    if (type === 'CommentModerated') {
+        const {postId, id, status} = data;
+        const comments = db.get(postId).comments;
+        console.log(comments);
+    }
 
     res.status(200).send('OK');
 })

@@ -42,6 +42,7 @@ app.post('/posts', async (req, res) => {
         })
         .catch((error) => {
             console.log('ERROR on sending Event');
+            console.log(error.message);
         })
 
     res.status(201).send({id, title});
