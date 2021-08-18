@@ -1,10 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const axios = require('axios');
+const JSONdb = require('simple-json-db');
 
 const app = express();
 app.use(bodyParser.json());
 
+const db = new JSONdb('../data/comments.json');
 
 app.post('/events', (req, res) => {
 

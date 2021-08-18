@@ -11,8 +11,6 @@ app.use(cors());
 
 const db = new JSONdb('../data/comments.json');
 
-const commentsByPostId = {};
-
 app.get('/posts/:id/comments', (req, res) => {
     res.send(db.get(req.params.id) || []);
 });
@@ -26,14 +24,15 @@ app.post('/posts/:id/comments', (req, res) => {
     const {content} = req.body;
 
     const comments = db.get(req.params.id) || [];
-    comments.push({id: commentId, content});
+    comments.push({id: commentId, content, status: 'pending'});
 
     axios.post('http://localhost:4005/events', {
             type: 'CommentCreated',
             data: {
                 id: commentId,
                 postId: req.params.id,
-                content: content
+                content: content,
+                status: 'pending'
             }
         })
         .catch((error) => {
