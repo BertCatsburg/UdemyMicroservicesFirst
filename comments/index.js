@@ -9,7 +9,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-const db = new JSONdb('../data/comments.json');
+const db = new JSONdb('../data/commentsService.json');
 
 app.get('/posts/:id/comments', (req, res) => {
     res.send(db.get(req.params.id) || []);

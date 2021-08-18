@@ -7,7 +7,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-const db = new JSONdb('../data/query.json');
+const db = new JSONdb('../data/queryService.json');
 /*
     Data Model:
         posts === {

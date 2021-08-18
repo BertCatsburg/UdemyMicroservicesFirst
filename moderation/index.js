@@ -6,9 +6,10 @@ const JSONdb = require('simple-json-db');
 const app = express();
 app.use(bodyParser.json());
 
-const db = new JSONdb('../data/comments.json');
+const db = new JSONdb('../data/moderationService.json');
 
 app.post('/events', (req, res) => {
+
 
 });
 

@@ -9,7 +9,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-const db = new JSONdb('../data/posts.json');
+const db = new JSONdb('../data/postsService.json');
 
 /**
  * get /posts
