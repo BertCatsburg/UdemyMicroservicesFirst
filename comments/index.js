@@ -12,6 +12,7 @@ app.use(cors());
 const db = new JSONdb('../data/commentsService.json');
 
 app.get('/posts/:id/comments', (req, res) => {
+    console.log('Received request for comments on ', req.params.id);
     res.send(db.get(req.params.id) || []);
 });
 
@@ -37,6 +38,7 @@ app.post('/posts/:id/comments', (req, res) => {
     })
         .catch((error) => {
             console.log('ERROR on sending Event');
+            console.log(error.message);
         })
 
     db.set([req.params.id], comments);
@@ -52,9 +54,20 @@ app.post('/events', async (req, res) => {
         console.log('Event Received (processing) : ',req.body);
         const {postId, id, status, content} = data;
         const comments = db.get(postId);
-        const comment = comments.find((comment) => { return id === comment.id});
-        comment.status = status;
-        db.set(postId, comments);
+        console.log('comments',comments);
+
+        const newComments = comments.map((c) => {
+            if (c.id === id) {
+                return {
+                    id,
+                    content,
+                    status
+                }
+            } else {
+                return c
+            }
+        })
+        db.set(postId, newComments);
 
         axios.post('http://localhost:4005/events', {
             type: 'CommentUpdated',

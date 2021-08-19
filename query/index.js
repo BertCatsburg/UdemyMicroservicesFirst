@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const JSONdb = require('simple-json-db');
+const helper = require('./lib/index');
 
 const app = express();
 app.use(bodyParser.json());
@@ -24,6 +25,7 @@ const db = new JSONdb('../data/queryService.json');
  */
 
 app.get('/posts', (req, res) => {
+    console.log('Received Request for all Posts');
     res.send(db.JSON());
 });
 
@@ -32,47 +34,11 @@ app.post('/events', (req, res) => {
     const {type, data} = req.body;
 
     if (type === 'PostCreated') {
-
-        console.log('Event Received (processing) : ',req.body);
-
-        const {id, title} = data;
-        db.set(id, {id, title, comments: []});
-
+        helper.PostCreated(db, data);
     } else if (type === 'CommentCreated') {
-
-        console.log('Event Received (processing) : ',req.body);
-
-        const { id, content, postId, status} = data;
-        const post = db.get(postId);
-        post.comments.push({id, content, status});
-        db.set(postId, post);
-
+        helper.CommentCreated(db, data);
     } else if (type === 'CommentUpdated') {
-
-        console.log('Event Received (processing) : ',req.body);
-
-        const { id, content, postId, status} = data;
-        const post = db.get(postId);
-        console.log(post);
-        const newComments = post.comments.map((comment) => {
-            if (comment.id !== id) {
-                return comment;
-            } else {
-                return {
-                    id,
-                    content,
-                    postId,
-                    status
-                }
-            }
-        })
-        const newPost = {
-            ...post,
-            comments: {
-                ...newComments,
-            }
-        }
-        db.set(postId, post);
+        helper.CommentUpdated(db, data);
     } else {
         console.log('Event Received (ignore) : ' + req.body.type);
     }
