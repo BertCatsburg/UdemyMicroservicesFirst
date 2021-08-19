@@ -45,6 +45,34 @@ app.post('/events', (req, res) => {
         db.set(postId, post);
     }
 
+    if (type === 'CommentUpdated') {
+        const { id, content, postId, status} = data;
+        const post = db.get(postId);
+        // const comment = post.comments.find((comment) => { return comment.id === id});
+
+        // comment.status = status;
+        // comment.content = content;
+        const newComments = comments.map((comment) => {
+            if (comment.id !== id) {
+                return comment;
+            } else {
+                return {
+                    id,
+                    content,
+                    postId,
+                    status
+                }
+            }
+        })
+        const newPost = {
+            ...post,
+            comments: {
+                ...newComments,
+            }
+        }
+        db.set(postId, post);
+    }
+
     res.send({});
 });
 
