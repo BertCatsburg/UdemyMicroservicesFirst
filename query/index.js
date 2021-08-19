@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const JSONdb = require('simple-json-db');
 const helper = require('./lib/index');
+const axios = require('axios');
 
 const app = express();
 app.use(bodyParser.json());
@@ -29,10 +30,7 @@ app.get('/posts', (req, res) => {
     res.send(db.JSON());
 });
 
-app.post('/events', (req, res) => {
-
-    const {type, data} = req.body;
-
+function handleEvents(db, type, data) {
     if (type === 'PostCreated') {
         helper.PostCreated(db, data);
     } else if (type === 'CommentCreated') {
@@ -40,14 +38,29 @@ app.post('/events', (req, res) => {
     } else if (type === 'CommentUpdated') {
         helper.CommentUpdated(db, data);
     } else {
-        console.log('Event Received (ignore) : ' + req.body.type);
+        console.log('Event Received (ignore) : ' + type);
     }
+}
 
+app.post('/events', (req, res) => {
+
+    const {type, data} = req.body;
+    handleEvents(db, type, data);
     res.send({});
 });
 
-app.listen(4002, () => {
-    console.log('Listening on 4002 for Query');
+app.listen(4002, async () => {
+    try {
+        console.log('Listening on 4002 for Query');
+
+        const res = await axios.get('http://localhost:4005/events');
+        console.log(res.data);
+        for (const eventId in res.data) {
+            console.log(eventId, res.data[eventId]);
+        }
+    } catch (error) {
+        console.error(error.message);
+    }
 });
 
 
