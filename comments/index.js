@@ -45,11 +45,11 @@ app.post('/posts/:id/comments', (req, res) => {
 });
 
 app.post('/events', async (req, res) => {
-    console.log('Event Received: ' + req.body.type);
 
     const {type, data} = req.body;
 
     if (type === 'CommentModerated') {
+        console.log('Event Received (processing) : ',req.body);
         const {postId, id, status, content} = data;
         const comments = db.get(postId);
         const comment = comments.find((comment) => { return id === comment.id});
@@ -68,6 +68,9 @@ app.post('/events', async (req, res) => {
             .catch((error) =>{
             console.log(error.message);
         });
+    } else {
+        console.log('Event Received (ignore) : ' + req.body.type);
+
     }
 
     res.status(200).send('OK');

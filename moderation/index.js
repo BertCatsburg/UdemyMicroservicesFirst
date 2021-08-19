@@ -9,7 +9,6 @@ app.use(bodyParser.json());
 // const db = new JSONdb('../data/moderationService.json');
 
 app.post('/events', async (req, res) => {
-    console.log('Event Received: ' + req.body.type);
 
     const {type, data} = req.body;
 
@@ -25,6 +24,9 @@ app.post('/events', async (req, res) => {
                 content: data.content
             }
         })
+        console.log('Event Received (processing) : ',req.body);
+    } else {
+        console.log('Event Received (ignore) :',req.body.type);
     }
 
     res.send({});

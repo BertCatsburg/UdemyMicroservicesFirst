@@ -8,7 +8,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 app.post('/events', async (req, res) => {
-    console.log('Event: ', req.body);
+    console.log('Incoming Event: ', req.body);
     const event = req.body;
 
      axios.post('http://localhost:4000/events', event)
@@ -36,5 +36,5 @@ app.post('/events', async (req, res) => {
 });
 
 app.listen(4005, () => {
-    console.log('Listening on 4005');
+    console.log('Listening on 4005 for the Event Bus');
 });

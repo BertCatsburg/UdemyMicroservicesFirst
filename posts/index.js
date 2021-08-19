@@ -22,7 +22,7 @@ app.get('/posts', async (req, res) => {
  * post /posts
  */
 app.post('/posts', async (req, res) => {
-    console.log(`Request with title =[${req.body.title}]`);
+    console.log(`Post Request with title = [${req.body.title}]`);
 
     if (req.body.title.length === 0) {
         res.status(200).send({});
@@ -33,6 +33,7 @@ app.post('/posts', async (req, res) => {
     const {title} = req.body;
     db.set(id, {id, title});
 
+    console.log('Sending out Event:', {id, title});
     axios.post('http://localhost:4005/events', {
             type: 'PostCreated',
             data: {
@@ -49,7 +50,7 @@ app.post('/posts', async (req, res) => {
 });
 
 app.post('/events', (req, res) => {
-    console.log('Event Received: ' + req.body.type);
+    console.log('Event Received (ignore) :',req.body.type);
 
     res.status(200).send('OK');
 })

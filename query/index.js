@@ -28,30 +28,23 @@ app.get('/posts', (req, res) => {
 });
 
 app.post('/events', (req, res) => {
-    console.log('Event Received: ' + req.body.type);
 
     const {type, data} = req.body;
 
     if (type === 'PostCreated') {
         const {id, title} = data;
         db.set(id, {id, title, comments: []});
-    }
-
-    if (type === 'CommentCreated') {
+        console.log('Event Received (processing) : ',req.body);
+    } else if (type === 'CommentCreated') {
         const { id, content, postId, status} = data;
         const post = db.get(postId);
-        console.log('CommentCreated:post', post);
         post.comments.push({id, content, status});
         db.set(postId, post);
-    }
-
-    if (type === 'CommentUpdated') {
+        console.log('Event Received (processing) : ',req.body);
+    } else if (type === 'CommentUpdated') {
         const { id, content, postId, status} = data;
         const post = db.get(postId);
-        // const comment = post.comments.find((comment) => { return comment.id === id});
-
-        // comment.status = status;
-        // comment.content = content;
+        console.log('Event Received (processing) : ',req.body);
         const newComments = comments.map((comment) => {
             if (comment.id !== id) {
                 return comment;
@@ -71,6 +64,8 @@ app.post('/events', (req, res) => {
             }
         }
         db.set(postId, post);
+    } else {
+        console.log('Event Received (ignore) : ' + req.body.type);
     }
 
     res.send({});
