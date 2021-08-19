@@ -58,7 +58,7 @@ app.post('/events', async (req, res) => {
 
         axios.post('http://localhost:4005/events', {
             type: 'CommentUpdated',
-            date: {
+            data: {
                 id,
                 status,
                 postId,

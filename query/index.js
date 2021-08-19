@@ -32,20 +32,29 @@ app.post('/events', (req, res) => {
     const {type, data} = req.body;
 
     if (type === 'PostCreated') {
+
+        console.log('Event Received (processing) : ',req.body);
+
         const {id, title} = data;
         db.set(id, {id, title, comments: []});
-        console.log('Event Received (processing) : ',req.body);
+
     } else if (type === 'CommentCreated') {
+
+        console.log('Event Received (processing) : ',req.body);
+
         const { id, content, postId, status} = data;
         const post = db.get(postId);
         post.comments.push({id, content, status});
         db.set(postId, post);
-        console.log('Event Received (processing) : ',req.body);
+
     } else if (type === 'CommentUpdated') {
+
+        console.log('Event Received (processing) : ',req.body);
+
         const { id, content, postId, status} = data;
         const post = db.get(postId);
-        console.log('Event Received (processing) : ',req.body);
-        const newComments = comments.map((comment) => {
+        console.log(post);
+        const newComments = post.comments.map((comment) => {
             if (comment.id !== id) {
                 return comment;
             } else {
