@@ -54,9 +54,9 @@ app.listen(4002, async () => {
         console.log('Listening on 4002 for Query');
 
         const res = await axios.get('http://localhost:4005/events');
-        console.log(res.data);
         for (const eventId in res.data) {
-            console.log(eventId, res.data[eventId]);
+            // console.log(eventId, res.data[eventId]);
+            handleEvents(db, res.data[eventId].type, res.data[eventId].data);
         }
     } catch (error) {
         console.error(error.message);

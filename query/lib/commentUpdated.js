@@ -5,19 +5,22 @@ function CommentUpdated(db, data) {
     const { id, content, postId, status} = data;
     const post = db.get(postId);
     console.log(post);
-    const {comments} = post;
+    const {comments} = post || [];
 
-    const newComments = comments.map((comment) => {
-        if (comment.id !== id) {
-            return comment;
-        } else {
-            return {
-                id,
-                content,
-                status
+    let newComments = [];
+    if (comments && comments.length > 0) {
+        newComments = comments.map((comment) => {
+            if (comment.id !== id) {
+                return comment;
+            } else {
+                return {
+                    id,
+                    content,
+                    status
+                }
             }
-        }
-    })
+        })
+    }
     const newPost = {
         ...post,
         comments: newComments

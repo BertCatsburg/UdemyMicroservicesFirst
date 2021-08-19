@@ -6,7 +6,7 @@ function CommentCreated(db, data) {
 
     const {id, content, postId, status} = data;
     const post = db.get(postId);
-    const {comments} = post;
+    const {comments} = post || [];
     comments.push({id, content, status});
     const newPost = {
         ...post,
