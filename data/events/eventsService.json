@@ -1,0 +1,63 @@
+{
+    "b61ed982": {
+        "type": "PostCreated",
+        "data": {
+            "id": "5ee8872f",
+            "title": "sdfkjsdfkj"
+        }
+    },
+    "1f1d76cd": {
+        "type": "CommentCreated",
+        "data": {
+            "id": "cb7c0a1d",
+            "postId": "5ee8872f",
+            "content": "sdfljksdflkj",
+            "status": "pending"
+        }
+    },
+    "b762b1b5": {
+        "type": "CommentModerated",
+        "data": {
+            "id": "cb7c0a1d",
+            "postId": "5ee8872f",
+            "status": "approved",
+            "content": "sdfljksdflkj"
+        }
+    },
+    "d737c752": {
+        "type": "CommentUpdated",
+        "data": {
+            "id": "cb7c0a1d",
+            "status": "approved",
+            "postId": "5ee8872f",
+            "content": "sdfljksdflkj"
+        }
+    },
+    "745d5d31": {
+        "type": "CommentCreated",
+        "data": {
+            "id": "a391d07e",
+            "postId": "5ee8872f",
+            "content": "orange",
+            "status": "pending"
+        }
+    },
+    "dd61f77a": {
+        "type": "CommentModerated",
+        "data": {
+            "id": "a391d07e",
+            "postId": "5ee8872f",
+            "status": "rejected",
+            "content": "orange"
+        }
+    },
+    "479fa40f": {
+        "type": "CommentUpdated",
+        "data": {
+            "id": "a391d07e",
+            "status": "rejected",
+            "postId": "5ee8872f",
+            "content": "orange"
+        }
+    }
+}
