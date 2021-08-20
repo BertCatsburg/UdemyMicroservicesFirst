@@ -54,9 +54,7 @@ app.post('/events', (req, res) => {
 
     res.status(200).send('OK');
 })
-/**
- * App-Listen
- */
+
 app.listen(4000, () => {
     console.log('Listening on 4000 for Posts');
 });
