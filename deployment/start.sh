@@ -36,5 +36,13 @@ docker rm events
 docker rmi events
 
 
+# Client
+cp building/Dockerfile ../client
+cp building/.dockerignore ../client
+docker stop client
+docker rm client
+docker rmi client
+
+
 
 docker-compose up

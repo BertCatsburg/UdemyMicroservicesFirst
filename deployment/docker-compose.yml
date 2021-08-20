@@ -85,6 +85,26 @@ services:
       - DATA=/app/data/eventsService.json
     command: ["npm", "run", "startprod"]
 
+  client:
+    build:
+      context: ../client
+      dockerfile: Dockerfile
+    image: client
+    container_name: client
+    depends_on:
+      - events
+      - posts
+      - comments
+      - query
+      - moderation
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./.profile:/root/.profile
+    command: [ "npm", "start" ]
+
+
+
 
 networks:
   microservices-network:
