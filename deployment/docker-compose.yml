@@ -1,0 +1,91 @@
+version: '3.9'
+
+services:
+
+  comments:
+    build:
+      context: ../comments
+      dockerfile: Dockerfile
+    image: comments
+    container_name: comments
+    depends_on:
+    - events
+    ports:
+      - "4001:4001"
+    volumes:
+      - ../data/comments:/app/data
+      - ./.profile:/root/.profile
+    environment:
+      - DATA=/app/data/commentsService.json
+    command: ["npm", "run", "startprod"]
+
+  posts:
+    build:
+      context: ../posts
+      dockerfile: Dockerfile
+    image: posts
+    container_name: posts
+    depends_on:
+    - events
+    ports:
+      - "4000:4000"
+    volumes:
+      - ../data/posts:/app/data
+      - ./.profile:/root/.profile
+    environment:
+      - DATA=/app/data/postsService.json
+    command: ["npm", "run", "startprod"]
+
+  moderation:
+    build:
+      context: ../moderation
+      dockerfile: Dockerfile
+    image: moderation
+    container_name: moderation
+    depends_on:
+    - events
+    ports:
+      - "4003:4003"
+    volumes:
+      - ../data/moderation:/app/data
+      - ./.profile:/root/.profile
+    environment:
+      - DATA=/app/data/moderationService.json
+    command: ["npm", "run", "startprod"]
+
+  query:
+    build:
+      context: ../query
+      dockerfile: Dockerfile
+    image: query
+    container_name: query
+    depends_on:
+    - events
+    ports:
+      - "4002:4002"
+    volumes:
+      - ../data/query:/app/data
+      - ./.profile:/root/.profile
+    environment:
+      - DATA=/app/data/queryService.json
+    command: ["npm", "run", "startprod"]
+
+  events:
+    build:
+      context: ../event-bus
+      dockerfile: Dockerfile
+    image: events
+    container_name: events
+    ports:
+      - "4005:4005"
+    volumes:
+      - ../data/events:/app/data
+      - ./.profile:/root/.profile
+    environment:
+      - DATA=/app/data/eventsService.json
+    command: ["npm", "run", "startprod"]
+
+
+networks:
+  microservices-network:
+    external: true

@@ -9,21 +9,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-const db = new JSONdb('../data/queryService.json');
-/*
-    Data Model:
-        posts === {
-            'fj302fw4': {
-                id: 'fj302fw4',
-                title: 'abc',
-                comments: [
-                    {
-                        id: 'sldkfj34',
-                        content: 'Commentaar...'
-                    }
-                ]
-        }
- */
+const db = new JSONdb(process.env.DATA);
 
 app.get('/posts', (req, res) => {
     console.log('Received Request for all Posts');
@@ -53,7 +39,7 @@ app.listen(4002, async () => {
     try {
         console.log('Listening on 4002 for Query');
 
-        const res = await axios.get('http://localhost:4005/events');
+        const res = await axios.get('http://events:4005/events');
         for (const eventId in res.data) {
             // console.log(eventId, res.data[eventId]);
             handleEvents(db, res.data[eventId].type, res.data[eventId].data);

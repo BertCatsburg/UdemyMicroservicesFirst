@@ -10,7 +10,7 @@ const {randomBytes} = require('crypto');
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
-const db = new JSONdb('../data/events.json');
+const db = new JSONdb(process.env.DATA);
 
 
 app.post('/events', async (req, res) => {
@@ -22,22 +22,22 @@ app.post('/events', async (req, res) => {
     db.set(eventId, event);
 
     // ! Send out Events to All Services
-    axios.post('http://localhost:4000/events', event)
+    axios.post('http://posts:4000/events', event)
         .catch((error) => {
             console.log('ERROR on Sending Event to POSTS');
             console.log(error.message);
         }); // Posts
-    axios.post('http://localhost:4001/events', event)
+    axios.post('http://comments:4001/events', event)
         .catch((error) => {
             console.log('ERROR on Sending Event to COMMENTS');
             console.log(error.message);
         }); // Comments
-    axios.post('http://localhost:4002/events', event)
+    axios.post('http://query:4002/events', event)
         .catch((error) => {
             console.log('ERROR on Sending Event to QUERY Service');
             console.log(error.message);
         }); // Query
-    axios.post('http://localhost:4003/events', event)
+    axios.post('http://moderation:4003/events', event)
         .catch((error) => {
             console.log('ERROR on Sending Event to MODERATION Service');
             console.log(error.message);

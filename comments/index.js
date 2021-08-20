@@ -9,7 +9,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-const db = new JSONdb('../data/commentsService.json');
+const db = new JSONdb(process.env.DATA);
 
 app.get('/posts/:id/comments', (req, res) => {
     console.log('Received request for comments on ', req.params.id);
@@ -17,6 +17,7 @@ app.get('/posts/:id/comments', (req, res) => {
 });
 
 app.get('/comments', (req, res) => {
+    console.log('Requesting all Comments');
     res.send(db.JSON());
 });
 
@@ -27,7 +28,7 @@ app.post('/posts/:id/comments', (req, res) => {
     const comments = db.get(req.params.id) || [];
     comments.push({id: commentId, content, status: 'pending'});
 
-    axios.post('http://localhost:4005/events', {
+    axios.post('http://events:4005/events', {
         type: 'CommentCreated',
         data: {
             id: commentId,
@@ -69,7 +70,7 @@ app.post('/events', async (req, res) => {
         })
         db.set(postId, newComments);
 
-        axios.post('http://localhost:4005/events', {
+        axios.post('http://events:4005/events', {
             type: 'CommentUpdated',
             data: {
                 id,

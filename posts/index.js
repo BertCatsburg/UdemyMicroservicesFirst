@@ -9,7 +9,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-const db = new JSONdb('../data/postsService.json');
+const db = new JSONdb(process.env.DATA);
 
 /**
  * get /posts
@@ -34,7 +34,7 @@ app.post('/posts', async (req, res) => {
     db.set(id, {id, title});
 
     console.log('Sending out Event:', {id, title});
-    axios.post('http://localhost:4005/events', {
+    axios.post('http://events:4005/events', {
             type: 'PostCreated',
             data: {
                 id: id,
