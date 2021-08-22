@@ -1,4 +1,4 @@
-version: '3.9'
+version: '3'
 
 services:
 
@@ -6,7 +6,7 @@ services:
     build:
       context: ../comments
       dockerfile: Dockerfile
-    image: comments
+    image: bertcatsburg/comments:0.0.1
     container_name: comments
     depends_on:
     - events
@@ -14,7 +14,7 @@ services:
       - "4001:4001"
     volumes:
       - ../data/comments:/app/data
-      - ./.profile:/root/.profile
+      - ./container/.profile:/root/.profile
     environment:
       - DATA=/app/data/commentsService.json
     command: ["npm", "run", "startprod"]
@@ -23,7 +23,7 @@ services:
     build:
       context: ../posts
       dockerfile: Dockerfile
-    image: posts
+    image: bertcatsburg/posts:0.0.1
     container_name: posts
     depends_on:
     - events
@@ -31,7 +31,7 @@ services:
       - "4000:4000"
     volumes:
       - ../data/posts:/app/data
-      - ./.profile:/root/.profile
+      - ./container/.profile:/root/.profile
     environment:
       - DATA=/app/data/postsService.json
     command: ["npm", "run", "startprod"]
@@ -40,7 +40,7 @@ services:
     build:
       context: ../moderation
       dockerfile: Dockerfile
-    image: moderation
+    image: bertcatsburg/moderation:0.0.1
     container_name: moderation
     depends_on:
     - events
@@ -48,7 +48,7 @@ services:
       - "4003:4003"
     volumes:
       - ../data/moderation:/app/data
-      - ./.profile:/root/.profile
+      - ./container/.profile:/root/.profile
     environment:
       - DATA=/app/data/moderationService.json
     command: ["npm", "run", "startprod"]
@@ -57,7 +57,7 @@ services:
     build:
       context: ../query
       dockerfile: Dockerfile
-    image: query
+    image: bertcatsburg/query:0.0.1
     container_name: query
     depends_on:
     - events
@@ -65,7 +65,7 @@ services:
       - "4002:4002"
     volumes:
       - ../data/query:/app/data
-      - ./.profile:/root/.profile
+      - ./container/.profile:/root/.profile
     environment:
       - DATA=/app/data/queryService.json
     command: ["npm", "run", "startprod"]
@@ -74,13 +74,13 @@ services:
     build:
       context: ../event-bus
       dockerfile: Dockerfile
-    image: events
+    image: bertcatsburg/events:0.0.1
     container_name: events
     ports:
       - "4005:4005"
     volumes:
       - ../data/events:/app/data
-      - ./.profile:/root/.profile
+      - ./container/.profile:/root/.profile
     environment:
       - DATA=/app/data/eventsService.json
     command: ["npm", "run", "startprod"]
@@ -89,7 +89,7 @@ services:
     build:
       context: ../client
       dockerfile: Dockerfile
-    image: client
+    image: bertcatsburg/client:0.0.1
     container_name: client
     depends_on:
       - events
@@ -100,7 +100,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./.profile:/root/.profile
+      - ./container/.profile:/root/.profile
     command: [ "npm", "start" ]
 
 
