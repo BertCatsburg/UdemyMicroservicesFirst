@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const axios = require('axios');
 const cors = require('cors');
-const JSONdb = require('simple-json-db');
+// const JSONdb = require('simple-json-db');
 const {randomBytes} = require('crypto');
 
 
@@ -10,7 +10,9 @@ const {randomBytes} = require('crypto');
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
-const db = new JSONdb(process.env.DATA);
+
+// const db = new JSONdb(process.env.DATA);
+const events = [];
 
 
 app.post('/events', async (req, res) => {
@@ -18,8 +20,10 @@ app.post('/events', async (req, res) => {
     const event = req.body;
 
     // ! Store the incoming Event
-    const eventId = randomBytes(4).toString('hex');
-    db.set(eventId, event);
+    // const eventId = randomBytes(4).toString('hex');
+    // db.set(eventId, event);
+    events.push(event);
+
 
     // ! Send out Events to All Services
     axios.post('http://posts-clusterip-srv:4000/events', event)
@@ -48,6 +52,7 @@ app.post('/events', async (req, res) => {
 
 app.get('/events', (req, res) => {
     res.send(db.JSON());
+    res.send(events);
 });
 
 app.listen(4005, () => {
