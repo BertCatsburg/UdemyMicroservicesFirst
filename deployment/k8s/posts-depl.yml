@@ -12,10 +12,17 @@ spec:
       labels:
         app: posts
     spec:
+      volumes:
+        - name: post-data
+          persistentVolumeClaim:
+            claimName: data-pv-claim
       containers:
         - name: posts
           image: bertcatsburg/posts:latest
           command: [ "npm", "run", "startprod" ]
+          volumeMounts:
+            - mountPath: "/app/data"
+              name: post-data
           imagePullPolicy: Never
           env:
             - name: DATA

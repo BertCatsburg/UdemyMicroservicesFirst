@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: moderation-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: moderation
+  template:
+    metadata:
+      labels:
+        app: moderation
+    spec:
+      containers:
+        - name: posts
+          image: bertcatsburg/moderation:latest
+          command: [ "npm", "run", "startprod" ]
+          imagePullPolicy: Never
+          env:
+            - name: DATA
+              value: "/app/data/moderationService.json"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: moderation-srv
+spec:
+  selector:
+    app: moderation
+  type: ClusterIP
+  ports:
+    - name: moderation
+      protocol: TCP
+      port: 4001
+      targetPort: 4001
+
+

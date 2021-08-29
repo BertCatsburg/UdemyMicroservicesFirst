@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: data-pv
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  claimRef:
+    name: datafile
+    namespace: data-pv-claim
+  hostPath:
+    path: "/Users/bert/Project/MicroServices/UdemyMicroservicesFirst/data"
