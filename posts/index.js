@@ -1,7 +1,7 @@
 const express = require('express');
 const {randomBytes} = require('crypto');
 const bodyParser = require('body-parser');
-const JSONdb = require('simple-json-db');
+// const JSONdb = require('simple-json-db');
 const cors = require('cors');
 const axios = require('axios');
 
@@ -9,13 +9,20 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-const db = new JSONdb(process.env.DATA);
+app.use((req, res, next) => {
+    console.log('Received a Request on POSTS MicroService');
+    console.log(`Method=${req.method} and URL: ${req.url}`);
+    next();
+})
+// const db = new JSONdb(process.env.DATA);
+const posts = {};
 
 /**
  * get /posts
  */
 app.get('/posts', async (req, res) => {
-    res.send(db.JSON());
+    // res.send(db.JSON());
+    res.send(posts);
 });
 
 /**
@@ -31,7 +38,11 @@ app.post('/posts', async (req, res) => {
 
     const id = randomBytes(4).toString('hex');
     const {title} = req.body;
-    db.set(id, {id, title});
+    posts[id] = {
+        id,
+        title,
+    };
+    // db.set(id, {id, title});
 
     console.log('Sending out Event:', {id, title});
     axios.post('http://eventbus-srv:4005/events', {
