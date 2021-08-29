@@ -22,22 +22,22 @@ app.post('/events', async (req, res) => {
     db.set(eventId, event);
 
     // ! Send out Events to All Services
-    axios.post('http://posts:4000/events', event)
+    axios.post('http://posts-clusterip-srv:4000/events', event)
         .catch((error) => {
             console.log('ERROR on Sending Event to POSTS');
             console.log(error.message);
         }); // Posts
-    axios.post('http://comments:4001/events', event)
+    axios.post('http://comments-srv:4001/events', event)
         .catch((error) => {
             console.log('ERROR on Sending Event to COMMENTS');
             console.log(error.message);
         }); // Comments
-    axios.post('http://query:4002/events', event)
+    axios.post('http://query-srv:4002/events', event)
         .catch((error) => {
             console.log('ERROR on Sending Event to QUERY Service');
             console.log(error.message);
         }); // Query
-    axios.post('http://moderation:4003/events', event)
+    axios.post('http://moderation-srv:4003/events', event)
         .catch((error) => {
             console.log('ERROR on Sending Event to MODERATION Service');
             console.log(error.message);

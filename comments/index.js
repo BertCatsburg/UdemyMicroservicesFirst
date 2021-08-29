@@ -28,7 +28,7 @@ app.post('/posts/:id/comments', (req, res) => {
     const comments = db.get(req.params.id) || [];
     comments.push({id: commentId, content, status: 'pending'});
 
-    axios.post('http://events:4005/events', {
+    axios.post('http://eventsbus-srv:4005/events', {
         type: 'CommentCreated',
         data: {
             id: commentId,
@@ -70,7 +70,7 @@ app.post('/events', async (req, res) => {
         })
         db.set(postId, newComments);
 
-        axios.post('http://events:4005/events', {
+        axios.post('http://eventbus-srv:4005/events', {
             type: 'CommentUpdated',
             data: {
                 id,

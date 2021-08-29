@@ -34,7 +34,7 @@ app.post('/posts', async (req, res) => {
     db.set(id, {id, title});
 
     console.log('Sending out Event:', {id, title});
-    axios.post('http://events:4005/events', {
+    axios.post('http://eventbus-srv:4005/events', {
             type: 'PostCreated',
             data: {
                 id: id,

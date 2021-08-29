@@ -39,7 +39,7 @@ app.listen(4002, async () => {
     try {
         console.log('Listening on 4002 for Query');
 
-        const res = await axios.get('http://events:4005/events');
+        const res = await axios.get('http://eventbus-srv:4005/events');
         for (const eventId in res.data) {
             // console.log(eventId, res.data[eventId]);
             handleEvents(db, res.data[eventId].type, res.data[eventId].data);

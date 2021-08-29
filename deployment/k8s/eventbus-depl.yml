@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eventbus-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: eventbus
+  template:
+    metadata:
+      labels:
+        app: eventbus
+    spec:
+      containers:
+        - name: eventbus
+          image: bertcatsburg/eventbus:latest
+          command: [ "npm", "run", "startprod" ]
+          imagePullPolicy: Never
+          env:
+            - name: DATA
+              value: "/app/data/eventbusService.json"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: eventbus-srv
+spec:
+  selector:
+    app: eventbus
+  type: ClusterIP
+  ports:
+    - name: eventbus
+      protocol: TCP
+      port: 4000
+      targetPort: 4000
+

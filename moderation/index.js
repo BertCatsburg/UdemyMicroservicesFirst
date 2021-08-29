@@ -1,12 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const axios = require('axios');
-const JSONdb = require('simple-json-db');
+// const JSONdb = require('simple-json-db');
 
 const app = express();
 app.use(bodyParser.json());
 
-const db = new JSONdb(process.env.DATA);
+// const db = new JSONdb(process.env.DATA);
 
 app.post('/events', async (req, res) => {
 
@@ -15,7 +15,7 @@ app.post('/events', async (req, res) => {
     if (type === 'CommentCreated') {
         // * Start Comment Validation
         const status = data.content.includes('orange') ? 'rejected' : 'approved';
-        await axios.post('http://events:4005/events', {
+        await axios.post('http://eventbus-srv:4005/events', {
             type: 'CommentModerated',
             data: {
                 id: data.id,
