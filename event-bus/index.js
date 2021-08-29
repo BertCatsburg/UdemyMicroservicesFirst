@@ -11,6 +11,15 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
+app.use((req, res, next) => {
+    console.log('Received a Request on EVENT-BUS MicroService');
+    console.log(`Method=${req.method} and URL: ${req.url}`);
+    if (req.method === "POST") {
+        console.log(`Event is ${req.body}`);
+    }
+    next();
+})
+
 // const db = new JSONdb(process.env.DATA);
 const events = [];
 
